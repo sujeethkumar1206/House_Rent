@@ -177,7 +177,7 @@ All endpoints are prefixed with `/api`. Protected routes require an `Authorizati
 2. On Render: New → Web Service → connect the repo.
 3. Root directory: `server`. Build command: `npm install`. Start command: `npm start`.
 4. Add environment variables from your `.env` in Render's dashboard (`MONGO_URI`, `JWT_SECRET`, `CLIENT_URL`, etc.), setting `CLIENT_URL` to your deployed frontend URL.
-5. Render provides a public URL like `https://houserent-api.onrender.com`.
+5. Render URL: `https://house-rent-7phc.onrender.com`.
 
 ### Frontend — Vercel
 1. Push the `client/` folder to GitHub (or same repo, different root).
