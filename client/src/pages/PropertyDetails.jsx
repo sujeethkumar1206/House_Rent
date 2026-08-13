@@ -5,6 +5,7 @@ import { getProperty } from '../services/propertyService.js';
 import { createBooking } from '../services/bookingService.js';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import useAuth from '../hooks/useAuth.js';
+import { getImageUrl, FALLBACK_IMAGE } from '../utils/imageHelper.js';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -58,15 +59,23 @@ const PropertyDetails = () => {
   if (loading) return <LoadingSpinner />;
   if (!property) return null;
 
-  const images = property.images && property.images.length > 0
-    ? property.images
-    : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=60'];
+  const rawImages = property.images && property.images.length > 0 ? property.images : [null];
+  const images = rawImages.map((img) => getImageUrl(img));
 
   return (
     <div className="container py-4">
       <div className="row g-4">
         <div className="col-md-7">
-          <img src={images[activeImage]} alt={property.title} className="img-fluid rounded mb-2" style={{ width: '100%', height: 400, objectFit: 'cover' }} />
+          <img
+            src={images[activeImage]}
+            alt={property.title}
+            className="img-fluid rounded mb-2"
+            style={{ width: '100%', height: 400, objectFit: 'cover' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = FALLBACK_IMAGE;
+            }}
+          />
           {images.length > 1 && (
             <div className="d-flex gap-2 flex-wrap">
               {images.map((img, idx) => (
@@ -77,6 +86,10 @@ const PropertyDetails = () => {
                   onClick={() => setActiveImage(idx)}
                   className={`rounded ${idx === activeImage ? 'border border-primary border-3' : ''}`}
                   style={{ width: 80, height: 60, objectFit: 'cover', cursor: 'pointer' }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = FALLBACK_IMAGE;
+                  }}
                 />
               ))}
             </div>
