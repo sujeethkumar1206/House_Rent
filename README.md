@@ -2,6 +2,10 @@
 
 A production-ready house rental web application built with MongoDB, Express.js, React.js, and Node.js. Users can browse, search, and book rental properties; owners can list properties for admin approval; admins manage users, listings, and bookings from a dedicated dashboard.
 
+### 🌐 Live Deployment
+- 🚀 **Frontend (Vercel):** [https://house-rent-ochre.vercel.app](https://house-rent-ochre.vercel.app)
+- ⚙️ **Backend API (Render):** [https://house-rent-7phc.onrender.com](https://house-rent-7phc.onrender.com)
+
 ---
 
 ## 1. Tech Stack
@@ -189,7 +193,7 @@ All endpoints are prefixed with `/api`. Protected routes require an `Authorizati
      "rewrites": [{ "source": "/api/:path*", "destination": "https://your-render-backend-url.onrender.com/api/:path*" }]
    }
    ```
-5. Deploy. Update the backend's `CLIENT_URL` env var to match your final Vercel URL.
+5. Deploy. Live URL: [https://house-rent-ochre.vercel.app](https://house-rent-ochre.vercel.app). Update the backend's `CLIENT_URL` env var to match.
 
 ---
 

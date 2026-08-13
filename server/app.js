@@ -33,10 +33,23 @@ app.use(helmet());
 app.use(mongoSanitize());
 app.use(xss());
 
-// CORS
+// CORS setup
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://house-rent-ochre.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
     credentials: true
   })
 );
