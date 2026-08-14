@@ -28,10 +28,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const mongoose = require('mongoose');
+
 // Ensure DB connection is ready before processing any request
 app.use(async (req, res, next) => {
   try {
     await connectDB();
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database connection error. Please ensure MongoDB Atlas Network Access allows 0.0.0.0/0 (anywhere).'
+      });
+    }
     next();
   } catch (err) {
     next(err);

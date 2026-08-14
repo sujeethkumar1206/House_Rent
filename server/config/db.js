@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 let isConnected = false;
 
 const connectDB = async () => {
-  if (isConnected || mongoose.connection.readyState >= 1) {
-    isConnected = true;
+  if (isConnected && mongoose.connection.readyState >= 1) {
     return;
   }
 
   try {
     const mongoUri = process.env.MONGO_URI || "mongodb+srv://sujeethkumarj007_db_user:sujeeth45@sujeeth.fbdm3sj.mongodb.net/house_rent?retryWrites=true&w=majority";
-    const conn = await mongoose.connect(mongoUri);
+    const conn = await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000
+    });
     isConnected = true;
     console.log(`MongoDB Connected: ${conn.connection.host}`);
 
@@ -22,6 +23,7 @@ const connectDB = async () => {
       console.log('Seed check skipped:', seedErr.message);
     }
   } catch (error) {
+    isConnected = false;
     console.error(`MongoDB connection error: ${error.message}`);
   }
 };
