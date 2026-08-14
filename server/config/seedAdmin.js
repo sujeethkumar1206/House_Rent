@@ -1,6 +1,7 @@
 // Run with: node config/seedAdmin.js
 // Creates a default admin account if one doesn't already exist.
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 const User = require('../models/User');
 

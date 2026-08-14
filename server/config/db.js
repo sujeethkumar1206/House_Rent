@@ -9,22 +9,14 @@ const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      bufferCommands: false, // <-- இதுதான் timeout ஆகாமல் தடுக்கும்
-      serverSelectionTimeoutMS: 5000,
-    });
+    const conn = await mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/house_rent_db");
     isConnected = true;
     console.log(`MongoDB Connected: ${conn.connection.host}`);
 
-    // Auto-seed initial properties if collection is empty
+    // Auto-seed admin user & initial data if needed
     try {
-      const Property = require('../models/Property');
-      const count = await Property.countDocuments();
-      if (count === 0) {
-        console.log('No properties found. Initializing seed data...');
-        const seedAuto = require('./seedAuto');
-        await seedAuto();
-      }
+      const seedAuto = require('./seedAuto');
+      await seedAuto();
     } catch (seedErr) {
       console.log('Seed check skipped:', seedErr.message);
     }

@@ -4,6 +4,23 @@ const Booking = require('../models/Booking');
 
 const seedAuto = async () => {
   try {
+    // Ensure default Admin Account exists
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@houserent.com';
+    const adminPass = process.env.ADMIN_PASSWORD || 'Admin@12345';
+    let admin = await User.findOne({ email: adminEmail });
+    if (!admin) {
+      admin = await User.create({
+        fullname: 'Site Administrator',
+        email: adminEmail,
+        password: adminPass,
+        role: 'Admin'
+      });
+      console.log('Auto-seeded default admin account:', adminEmail);
+    } else if (admin.role !== 'Admin') {
+      admin.role = 'Admin';
+      await admin.save();
+    }
+
     const sampleUsers = [
       { fullname: 'Rajesh Sharma', email: 'rajesh.sharma@example.com', password: 'Password@123', phone: '9876543210', address: 'Bandra West, Mumbai' },
       { fullname: 'Priya Patel', email: 'priya.patel@example.com', password: 'Password@123', phone: '9812345678', address: 'Koramangala, Bangalore' },
