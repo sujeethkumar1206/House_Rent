@@ -9,7 +9,8 @@ const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/house_rent_db");
+    const mongoUri = process.env.MONGO_URI || "mongodb+srv://sujeethkumarj007_db_user:sujeeth45@sujeeth.fbdm3sj.mongodb.net/house_rent?retryWrites=true&w=majority";
+    const conn = await mongoose.connect(mongoUri);
     isConnected = true;
     console.log(`MongoDB Connected: ${conn.connection.host}`);
 
@@ -22,7 +23,6 @@ const connectDB = async () => {
     }
   } catch (error) {
     console.error(`MongoDB connection error: ${error.message}`);
-    throw error;
   }
 };
 
