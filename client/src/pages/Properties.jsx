@@ -12,7 +12,18 @@ const Properties = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filters, setFilters] = useState({ city: searchParams.get('city') || '' });
+
+  const getInitialFiltersFromUrl = useCallback(() => ({
+    city: searchParams.get('city') || '',
+    q: searchParams.get('q') || '',
+    propertyType: searchParams.get('propertyType') || '',
+    furnishing: searchParams.get('furnishing') || '',
+    minPrice: searchParams.get('minPrice') || '',
+    maxPrice: searchParams.get('maxPrice') || '',
+    bedrooms: searchParams.get('bedrooms') || ''
+  }), [searchParams]);
+
+  const [filters, setFilters] = useState(getInitialFiltersFromUrl);
 
   const fetchProperties = useCallback(async (currentFilters, currentPage) => {
     setLoading(true);
@@ -21,20 +32,29 @@ const Properties = () => {
       setProperties(res.data.properties);
       setTotalPages(res.data.totalPages);
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching properties:', err);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchProperties(filters, page);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
-  const handleSearch = () => {
+    const urlFilters = getInitialFiltersFromUrl();
+    setFilters(urlFilters);
     setPage(1);
-    fetchProperties(filters, 1);
+    fetchProperties(urlFilters, 1);
+  }, [searchParams, getInitialFiltersFromUrl, fetchProperties]);
+
+  const handleSearch = (newFilters) => {
+    const updated = newFilters || filters;
+    setFilters(updated);
+    setPage(1);
+    fetchProperties(updated, 1);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    fetchProperties(filters, newPage);
   };
 
   return (
@@ -46,17 +66,31 @@ const Properties = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <div className="row g-4">
-            {properties.map((p) => (
-              <div className="col-md-4" key={p._id}>
-                <PropertyCard property={p} />
-              </div>
-            ))}
-          </div>
-          {properties.length === 0 && (
-            <p className="text-muted text-center py-5">No properties match your search criteria.</p>
+          {properties.length > 0 ? (
+            <div className="row g-4">
+              {properties.map((p) => (
+                <div className="col-md-4" key={p._id}>
+                  <PropertyCard property={p} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-5">
+              <p className="text-muted mb-3 fs-5">No properties match your search criteria.</p>
+              <button
+                className="btn btn-brand"
+                onClick={() => {
+                  const empty = { city: '', q: '', propertyType: '', minPrice: '', maxPrice: '', bedrooms: '', furnishing: '', parking: '', sort: '' };
+                  handleSearch(empty);
+                }}
+              >
+                Clear All Filters
+              </button>
+            </div>
           )}
-          <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+          {totalPages > 1 && (
+            <Pagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
+          )}
         </>
       )}
     </div>

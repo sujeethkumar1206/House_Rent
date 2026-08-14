@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const SearchFilters = ({ filters, onChange, onSearch }) => {
   const [local, setLocal] = useState(filters);
+
+  useEffect(() => {
+    setLocal(filters);
+  }, [filters]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,7 +15,24 @@ const SearchFilters = ({ filters, onChange, onSearch }) => {
   const handleApply = (e) => {
     e.preventDefault();
     onChange(local);
-    onSearch();
+    onSearch(local);
+  };
+
+  const handleClear = () => {
+    const emptyFilters = {
+      q: '',
+      city: '',
+      propertyType: '',
+      minPrice: '',
+      maxPrice: '',
+      bedrooms: '',
+      furnishing: '',
+      parking: '',
+      sort: ''
+    };
+    setLocal(emptyFilters);
+    onChange(emptyFilters);
+    onSearch(emptyFilters);
   };
 
   return (
@@ -73,7 +94,7 @@ const SearchFilters = ({ filters, onChange, onSearch }) => {
           <button type="submit" className="btn btn-brand w-100">Go</button>
         </div>
       </div>
-      <div className="row g-2 mt-1">
+      <div className="row g-2 mt-2 align-items-end">
         <div className="col-md-3">
           <label className="form-label small mb-1">Furnishing</label>
           <select className="form-select" name="furnishing" value={local.furnishing || ''} onChange={handleChange}>
@@ -99,6 +120,11 @@ const SearchFilters = ({ filters, onChange, onSearch }) => {
             <option value="price_low">Lowest Price</option>
             <option value="price_high">Highest Price</option>
           </select>
+        </div>
+        <div className="col-md-4 text-end">
+          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={handleClear}>
+            Clear Filters
+          </button>
         </div>
       </div>
     </form>

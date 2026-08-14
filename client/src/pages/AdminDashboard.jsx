@@ -100,7 +100,10 @@ const AdminDashboard = () => {
       if (t === 'properties') await fetchProperties();
       if (t === 'bookings') await fetchBookings();
     } catch (err) {
-      toast.error('Failed to load data');
+      const msg = err.code === 'ECONNABORTED' || err.message?.includes('timeout')
+        ? 'Server request timed out. Backend may be waking up, please refresh.'
+        : err.response?.data?.message || 'Failed to load admin data';
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

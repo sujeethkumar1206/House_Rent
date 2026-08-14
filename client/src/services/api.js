@@ -4,7 +4,8 @@ const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https:
 
 const api = axios.create({
   baseURL: API_BASE,
-  withCredentials: true
+  withCredentials: true,
+  timeout: 30000 // 30s timeout to allow Render backend cold starts without buffer timeout
 });
 
 // Attach token from localStorage (in addition to httpOnly cookie) for cross-origin deployments

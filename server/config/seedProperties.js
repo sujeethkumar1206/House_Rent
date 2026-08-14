@@ -64,7 +64,7 @@ const seedData = async () => {
       amenities: ['WiFi', 'Power Backup', 'Security', 'Balcony', 'Clubhouse'],
       images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80'],
       owner: createdUsers[1]._id,
-      status: 'Pending'
+      status: 'Approved'
     },
     {
       title: 'Modern Independent Villa with Garden',
@@ -100,7 +100,7 @@ const seedData = async () => {
       amenities: ['WiFi', 'Air Conditioning', 'Washing Machine', 'Security'],
       images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'],
       owner: createdUsers[3]._id,
-      status: 'Pending'
+      status: 'Approved'
     },
     {
       title: 'Premium 3BHK Penthouse in Gated Community',
@@ -118,7 +118,7 @@ const seedData = async () => {
       amenities: ['Jacuzzi', 'Smart Automation', 'Gym', 'Swimming Pool', 'Security'],
       images: ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80'],
       owner: createdUsers[4]._id,
-      status: 'Pending'
+      status: 'Approved'
     },
     {
       title: 'Beachside 2BHK Portuguese Style Villa',
@@ -139,6 +139,60 @@ const seedData = async () => {
       status: 'Approved'
     },
     {
+      title: 'Modern 3BHK Apartment in OMR Tech Corridor',
+      description: 'Spacious and breezy 3BHK flat located in the heart of Chennai IT hub. Gated community with clubhouse, gym, and pool.',
+      price: 35000,
+      location: 'Old Mahabalipuram Road (OMR), Perungudi',
+      city: 'Chennai',
+      state: 'Tamil Nadu',
+      propertyType: 'Apartment',
+      bedrooms: 3,
+      bathrooms: 3,
+      parking: true,
+      furnishing: 'Furnished',
+      area: 1650,
+      amenities: ['Gym', 'Swimming Pool', 'Security', 'Power Backup', 'Clubhouse'],
+      images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'],
+      owner: createdUsers[0]._id,
+      status: 'Approved'
+    },
+    {
+      title: 'Luxury 2BHK Gated Flat in Anna Nagar',
+      description: 'Prime location 2BHK flat in Anna Nagar with teak wood interiors, covered car parking, and metro connectivity.',
+      price: 28000,
+      location: 'Anna Nagar West',
+      city: 'Chennai',
+      state: 'Tamil Nadu',
+      propertyType: 'Apartment',
+      bedrooms: 2,
+      bathrooms: 2,
+      parking: true,
+      furnishing: 'Semi-Furnished',
+      area: 1250,
+      amenities: ['WiFi', 'Elevator', 'Security', 'Balcony', 'Power Backup'],
+      images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'],
+      owner: createdUsers[1]._id,
+      status: 'Approved'
+    },
+    {
+      title: 'Spacious Independent House in Race Course',
+      description: 'Serene 3BHK villa with green surroundings, modular kitchen, solar water heater, and spacious garden.',
+      price: 40000,
+      location: 'Race Course Road',
+      city: 'Coimbatore',
+      state: 'Tamil Nadu',
+      propertyType: 'Villa',
+      bedrooms: 3,
+      bathrooms: 3,
+      parking: true,
+      furnishing: 'Furnished',
+      area: 2200,
+      amenities: ['Garden', 'Solar Water', 'Security', 'Garage', 'Terrace'],
+      images: ['https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80'],
+      owner: createdUsers[2]._id,
+      status: 'Approved'
+    },
+    {
       title: 'Budget Single PG Room for Men',
       description: 'Affordable single occupancy PG room with 3 meals included, laundry service, and high speed Wi-Fi.',
       price: 9000,
@@ -154,7 +208,7 @@ const seedData = async () => {
       amenities: ['WiFi', 'Meals Included', 'Laundry', 'Housekeeping'],
       images: ['https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80'],
       owner: createdUsers[1]._id,
-      status: 'Rejected'
+      status: 'Approved'
     }
   ];
 

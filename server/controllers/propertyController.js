@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Property = require('../models/Property');
+require('../models/User');
 
 // @desc    Get all approved properties with filters, search, pagination
 // @route   GET /api/properties
@@ -26,9 +27,9 @@ exports.getProperties = async (req, res, next) => {
 
     if (city) query.city = new RegExp(city, 'i');
     if (location) query.location = new RegExp(location, 'i');
-    if (propertyType) query.propertyType = propertyType;
-    if (furnishing) query.furnishing = furnishing;
-    if (parking !== undefined) query.parking = parking === 'true';
+    if (propertyType) query.propertyType = new RegExp(`^${propertyType}$`, 'i');
+    if (furnishing) query.furnishing = new RegExp(`^${furnishing}$`, 'i');
+    if (parking !== undefined && parking !== '') query.parking = parking === 'true';
     if (bedrooms) query.bedrooms = { $gte: Number(bedrooms) };
     if (bathrooms) query.bathrooms = { $gte: Number(bathrooms) };
     if (minPrice || maxPrice) {
@@ -36,8 +37,17 @@ exports.getProperties = async (req, res, next) => {
       if (minPrice) query.price.$gte = Number(minPrice);
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
-    if (q) {
-      query.$text = { $search: q };
+    if (q && q.trim() !== '') {
+      const searchRegex = new RegExp(q.trim(), 'i');
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { city: searchRegex },
+        { location: searchRegex },
+        { state: searchRegex },
+        { propertyType: searchRegex },
+        { furnishing: searchRegex }
+      ];
     }
 
     let sortOption = { createdAt: -1 }; // Latest by default
